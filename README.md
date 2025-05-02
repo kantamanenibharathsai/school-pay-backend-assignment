@@ -103,7 +103,7 @@ npm start
 
 The server will be running at `http://localhost:5000` (or the PORT specified in your config.env file)
 
-Live API: [https://school-pay-backend-assignment.onrender.com](https://school-pay-backend-assignment.onrender.com/api/)
+Live API: [https://school-pay-backend-assignment.onrender.com](https://school-pay-backend-assignment.onrender.com/)
 
 ### Environment Variables
 

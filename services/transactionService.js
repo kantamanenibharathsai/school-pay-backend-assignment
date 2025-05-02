@@ -1,15 +1,20 @@
 import { Transaction } from '../models/transaction.js';
 
 export const getTransactions = async (filter = {}, options = {}) => {
-  const { page = 1, limit = 10, sort = { transaction_date: -1 } } = options;
+  const MAX_LIMIT = 100;
+  const pageNum = Number(options.page) > 0 ? Number(options.page) : 1;
+  const limitNum = Number(options.limit) > 0 ? Math.min(Number(options.limit), MAX_LIMIT) : 10;
+  const sort = options.sort || { transaction_date: -1 };
   const transactions = await Transaction.find(filter)
     .select('collect_id school_id gateway order_amount transaction_amount status custom_order_id transaction_date')
-    .skip((page - 1) * limit)
-    .limit(Number(limit))
+    .skip((pageNum - 1) * limitNum)
+    .limit(limitNum)
     .sort(sort);
   const total = await Transaction.countDocuments(filter);
-  return { transactions, total }; 
+
+  return { transactions, total };
 };
+
 
 export const getTransactionsBySchool = async (school_id, start_date, end_date) => {
   const filter = { school_id };

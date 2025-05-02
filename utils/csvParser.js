@@ -9,7 +9,5 @@ export const parseCSV = (filePath) => {
             .on('data', (data) => results.push(data))
             .on('end', () => resolve(results))
             .on('error', (err) => reject(err));
-        
-            console.log("INSide API", filePath);
     });
 };

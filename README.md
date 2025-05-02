@@ -15,7 +15,7 @@
 ![Live Backend URL](./screenshots/liveBackendUrl.png)
 
 ### Live Backend URL Data
-![Live Backend URL Data](./screenshots/liveBackendUrlData.png)
+![Live Backend URL Data](./screenshots/LiveBackendUrlData.png)
 
 
 This repository contains the backend API's for the School Payments & Dashboard application, built with Node.js, Express, and MongoDB.

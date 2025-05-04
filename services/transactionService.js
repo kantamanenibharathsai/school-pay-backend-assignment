@@ -1,20 +1,6 @@
 import { Transaction } from '../models/transaction.js';
-// import {Student} from '../models/student.js';
 
-// export const getTransactions = async (filter = {}, options = {}) => {
-//   const MAX_LIMIT = 100;
-//   const pageNum = Number(options.page) > 0 ? Number(options.page) : 1;
-//   const limitNum = Number(options.limit) > 0 ? Math.min(Number(options.limit), MAX_LIMIT) : 10;
-//   const sort = options.sort || { transaction_date: -1 };
-//   const transactions = await Transaction.find(filter)
-//     .select('collect_id school_id gateway order_amount transaction_amount status custom_order_id transaction_date')
-//     .skip((pageNum - 1) * limitNum)
-//     .limit(limitNum)
-//     .sort(sort);
-//   const total = await Transaction.countDocuments(filter);
 
-//   return { transactions, total };
-// };
 export const getTransactions = async (filter = {}, options = {}) => {
   const MAX_LIMIT = 100;
   const pageNum = Number(options.page) > 0 ? Number(options.page) : 1;
@@ -26,34 +12,27 @@ export const getTransactions = async (filter = {}, options = {}) => {
     {
       $lookup: {
         from: "students",
-        localField: "school_id",
-        foreignField: "school_id",
-        as: "students"
+        localField: "student_id",
+        foreignField: "student_id",
+        as: "student"
       }
     },
-    { $unwind: "$students" },
-    {
-      $replaceRoot: {
-        newRoot: {
-          $mergeObjects: [
-            "$$ROOT",
-            {
-              student_id: "$students.student_id",
-              school_id: "$students.school_id",
-              name: "$students.name",
-              email: "$students.email",
-              phone: "$students.phone"
-            }
-          ]
-        }
-      }
-    },
+    { $unwind: "$student" },
     {
       $project: {
-        students: 0,
-        __v: 0,
-        createdAt: 0,
-        updatedAt: 0
+        collect_id: 1,
+        school_id: 1,
+        student_id: 1,
+        gateway: 1,
+        order_amount: 1,
+        transaction_amount: 1,
+        status: 1,
+        custom_order_id: 1,
+        transaction_date: 1,
+        bank_reference: 1,
+        name: "$student.name",
+        email: "$student.email",
+        phone: "$student.phone"
       }
     },
     { $sort: sort },
@@ -68,45 +47,6 @@ export const getTransactions = async (filter = {}, options = {}) => {
 };
 
 
-// export const getTransactionsBySchoolWithStudents = async (school_id, start_date, end_date) => {
-//   const match = { school_id };
-//   if (start_date || end_date) {
-//     match.transaction_date = {};
-//     if (start_date) match.transaction_date.$gte = new Date(start_date);
-//     if (end_date) match.transaction_date.$lte = new Date(end_date);
-//   }
-
-//   return Transaction.aggregate([
-//     { $match: match },
-//     {
-//       $lookup: {
-//         from: "students",
-//         localField: "school_id",
-//         foreignField: "school_id",
-//         as: "students"
-//       }
-//     },
-//     {
-//       $project: {
-//         collect_id: 1,
-//         school_id: 1,
-//         gateway: 1,
-//         order_amount: 1,
-//         transaction_amount: 1,
-//         status: 1,
-//         custom_order_id: 1,
-//         transaction_date: 1,
-//         students: {
-//           student_id: 1,
-//           name: 1,
-//           email: 1,
-//           phone: 1
-//         }
-//       }
-//     },
-//     { $sort: { transaction_date: -1 } }
-//   ]);
-// };
 export const getTransactionsBySchool = async (school_id, start_date, end_date) => {
   const match = { school_id };
   if (start_date || end_date) {

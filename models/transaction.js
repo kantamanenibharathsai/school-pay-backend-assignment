@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const transactionSchema = new mongoose.Schema({
     collect_id: { type: String, required: true, unique: true },
     school_id: { type: String, required: true },

@@ -58,6 +58,8 @@ export const getAllTransactions = async (req, res, next) => {
       });
     }
 
+    console.log("total records", total);
+
     res.status(200).json({
       message: "Transactions fetched successfully.",
       page: Number(page),
@@ -72,10 +74,6 @@ export const getAllTransactions = async (req, res, next) => {
     });
   }
 };
-
-
-
-
 
 
 export const getTransactionsBySchoolController = async (req, res, next) => {

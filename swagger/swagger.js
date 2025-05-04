@@ -11,8 +11,8 @@ const options = {
         },
         servers: [
             { 
-                url: 'https://school-pay-backend-assignment.onrender.com',
-                description: 'Local development server'
+                url: 'https://school-pay-backend-assignment.onrender.com/',
+                description: 'Remote Render server'
             }
         ],
     },

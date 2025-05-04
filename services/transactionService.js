@@ -39,6 +39,7 @@ export const getTransactions = async (filter = {}, options = {}) => {
             "$$ROOT",
             {
               student_id: "$students.student_id",
+              school_id: "$students.school_id",
               name: "$students.name",
               email: "$students.email",
               phone: "$students.phone"

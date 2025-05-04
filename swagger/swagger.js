@@ -11,7 +11,7 @@ const options = {
         },
         servers: [
             { 
-                url: 'http://localhost:5000',
+                url: 'https://school-pay-backend-assignment.onrender.com',
                 description: 'Local development server'
             }
         ],

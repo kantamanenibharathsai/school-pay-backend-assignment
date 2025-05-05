@@ -60,14 +60,35 @@ export const getTransactionsBySchool = async (school_id, start_date, end_date) =
     {
       $lookup: {
         from: "students",
-        localField: "school_id",
-        foreignField: "school_id",
+        let: { school_id: "$school_id", student_id: "$student_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$school_id", "$$school_id"] },
+                  { $eq: ["$student_id", "$$student_id"] }
+                ]
+              }
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              student_id: 1,
+              name: 1,
+              email: 1,
+              phone: 1
+            }
+          }
+        ],
         as: "student"
       }
     },
-    { $unwind: "$student" },
+    { $unwind: "$student" }, // Will only match the correct student
     {
       $project: {
+        _id: 1,
         collect_id: 1,
         school_id: 1,
         gateway: 1,
@@ -76,10 +97,7 @@ export const getTransactionsBySchool = async (school_id, start_date, end_date) =
         status: 1,
         custom_order_id: 1,
         transaction_date: 1,
-        "student.student_id": 1,
-        "student.name": 1,
-        "student.email": 1,
-        "student.phone": 1
+        student: 1 // already projected above
       }
     },
     { $sort: { transaction_date: -1 } }

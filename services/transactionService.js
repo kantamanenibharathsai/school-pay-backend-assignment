@@ -85,7 +85,7 @@ export const getTransactionsBySchool = async (school_id, start_date, end_date) =
         as: "student"
       }
     },
-    { $unwind: "$student" }, // Will only match the correct student
+    { $unwind: "$student" },
     {
       $project: {
         _id: 1,
@@ -97,7 +97,7 @@ export const getTransactionsBySchool = async (school_id, start_date, end_date) =
         status: 1,
         custom_order_id: 1,
         transaction_date: 1,
-        student: 1 // already projected above
+        student: 1
       }
     },
     { $sort: { transaction_date: -1 } }
@@ -123,10 +123,23 @@ export const updateTransactionStatus = async (custom_order_id, new_status) => {
   );
 };
 
-export const updateTransactionForWebhook = async (order_id, updateData) => {
+// export const updateTransactionForWebhook = async (order_id, updateData) => {
+//   return Transaction.findOneAndUpdate(
+//     { collect_id: order_id },
+//     updateData,
+//     { new: true }
+//   );
+// };
+
+export const getTransactionByCollectAndTransactionId = async (collect_id, transaction_id) => {
+  return Transaction.findOne({ collect_id, transaction_id });
+};
+
+export const updateTransactionForWebhook = async (collect_id, transaction_id, updateData) => {
   return Transaction.findOneAndUpdate(
-    { collect_id: order_id },
+    { collect_id, transaction_id },
     updateData,
     { new: true }
   );
 };
+

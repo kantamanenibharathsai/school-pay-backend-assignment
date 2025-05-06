@@ -129,46 +129,6 @@ export const checkTransactionStatus = async (req, res, next) => {
 };
 
 
-// export const webhookTransactionStatus = async (req, res, next) => {
-//   try {
-//     const { status, order_info } = req.body;
-//     if (!order_info || typeof status === 'undefined') {
-//       return res.status(400).json({ message: "Both 'status' and 'order_info' are required in the request body." });
-//     }
-//     const requiredFields = ['order_id', 'order_amount', 'transaction_amount', 'gateway', 'bank_reference'];
-//     const missingFields = requiredFields.filter(field => !order_info[field]);
-//     if (missingFields.length > 0) {
-//       return res.status(400).json({ message: `Missing fields in order_info: ${missingFields.join(', ')}` });
-//     }
-
-//     if (!/^ORD\d{4,}$/.test(order_info.order_id)) {
-//       return res.status(400).json({ message: "Invalid order_id format. Expected format: ORD followed by at least 4 digits (e.g., ORD1234)." });
-//     }
-//     if (typeof status !== 'number') {
-//       return res.status(400).json({ message: "'status' must be a number (e.g., 200 for success)." });
-//     }
-//     const transaction = await getTransactionByCollectId(order_info.order_id);
-//     if (!transaction) {
-//       return res.status(404).json({ message: `Transaction not found for order ID '${order_info.order_id}'.` });
-//     }
-//     const updatedTransaction = await updateTransactionForWebhook(order_info.order_id, {
-//       status: status === 200 ? "Success" : "Failed",
-//       order_amount: order_info.order_amount,
-//       transaction_amount: order_info.transaction_amount,
-//       gateway: order_info.gateway,
-//       bank_reference: order_info.bank_reference,
-//     });
-
-//     res.status(200).json({
-//       message: `Transaction updated to '${status === 200 ? "Success" : "Failed"}' for order ID '${order_info.order_id}'.`,
-//       transaction: updatedTransaction,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Internal server error.", error: error.message });
-//   }
-// };
-
-
 export const manualUpdateTransaction = async (req, res, next) => {
   try {
     const { custom_order_id, new_status } = req.body;

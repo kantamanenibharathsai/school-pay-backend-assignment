@@ -216,7 +216,7 @@ export const webhookTransactionStatus = async (req, res, next) => {
     if (!collect_id || !/^C\d{4,}$/.test(collect_id)) {
       return res.status(400).json({ message: "Invalid collect_id format." });
     }
-    if (!transaction_id || !/^PPGW\d{6}$/.test(transaction_id)) {
+    if (!transaction_id || !/^[A-Z]+[0-9]{6}$/.test(transaction_id)) {
       return res.status(400).json({ message: "Invalid transaction_id format. Expected: PPGW followed by 6 digits (e.g., PPGW100001)." });
     }
     if (typeof status !== 'number') {

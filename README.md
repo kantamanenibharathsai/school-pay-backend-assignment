@@ -170,7 +170,7 @@ school-payments-backend/
 
 | Method | Endpoint                          | Description                           | Status Codes | Request Validation |
 | ------ | --------------------------------- | ------------------------------------- | ------------ | ------------------ |
-| POST   | `/api/webhook/transaction-status` | Update transaction status via webhook | 200, 400, 404, 500 | Body validation for transaction details and digital signature |
+| POST   | `/api/webhook/transaction-status` | Update transaction status via webhook | 200, 400, 404, 500 | Body validation for transaction details |
 
 ### Import Data
 
